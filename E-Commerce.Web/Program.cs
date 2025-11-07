@@ -1,5 +1,6 @@
-
+using E_Commerce.Domain.Contracts;
 using E_Commerce.Persistence.Context;
+using E_Commerce.Persistence.DbInitializers;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Web
@@ -17,11 +18,16 @@ namespace E_Commerce.Web
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("SQLConnection"));
             });
+            builder.Services.AddScoped<IDbInitializer, DbInitializer>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
             var app = builder.Build();
+
+            using var scope = app.Services.CreateScope();
+            var initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+            initializer.Initialize();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -29,14 +35,9 @@ namespace E_Commerce.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
-
             app.Run();
         }
     }
