@@ -2,7 +2,9 @@ using E_Commerce.Domain.Contracts;
 using E_Commerce.Persistence.Context;
 using E_Commerce.Persistence.DbInitializers;
 using E_Commerce.Persistence.Repositories;
+using E_Commerce.Service.Abstraction;
 using E_Commerce.Service.MappingProfile;
+using E_Commerce.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Web
@@ -22,6 +24,7 @@ namespace E_Commerce.Web
 
             builder.Services.AddScoped<IDbInitializer, DbInitializer>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddAutoMapper(x => x.AddProfile(new ProductProfile()));
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
