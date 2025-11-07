@@ -8,7 +8,7 @@ namespace E_Commerce.Presentation.API.Controllers
 {
     public class ProductController(IProductService productService) : APIBaseController
     {
-        [HttpGet("Brands")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<BrandDto>>> GetBrandsAsync()
         {
             var brands = await productService.GetBrandsAsync();
@@ -26,7 +26,7 @@ namespace E_Commerce.Presentation.API.Controllers
             var products = await productService.GetProductsAsync();
             return Ok(products);
         }
-        [HttpGet("Types")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<TypeDto>>> GetTypesAsync()
         {
             var types = await productService.GetTypesAsync();

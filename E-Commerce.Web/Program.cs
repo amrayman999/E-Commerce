@@ -43,6 +43,7 @@ namespace E_Commerce.Web
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();
