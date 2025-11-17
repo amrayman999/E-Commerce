@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using E_Commerce.Domain.Entities.Products;
-using E_Commerce.Shared.Produucts;
+using E_Commerce.Shared.Products;
 using Microsoft.Extensions.Configuration;
 
 
@@ -18,6 +18,7 @@ namespace E_Commerce.Service.MappingProfile
                 .ForMember(dest => dest.Brand, opt => opt.MapFrom(src => src.ProductBrand.Name))
                 .ForMember(dest => dest.Type, opt => opt.MapFrom(src => src.ProductType.Name))
                 .ForMember(dest => dest.PictureUrl, opt => opt.MapFrom(new ProductPictureUrlResolver(configuration)));
+
 
 
         }
