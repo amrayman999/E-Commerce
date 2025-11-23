@@ -16,8 +16,8 @@ namespace E_Commerce.Service.Specifications
         {
             AddInclude(p => p.ProductBrand);
             AddInclude(p => p.ProductType);
-
-            switch(parameters.Sort)
+            ApplyPagination(parameters.PageSize, parameters.PageIndex);
+            switch (parameters.Sort)
             {
                 case ProductSortingOptions.NameAsc:
                     AddOrderBy(p => p.Name);

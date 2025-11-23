@@ -28,6 +28,10 @@ namespace E_Commerce.Persistence.Repositories
             {
                 query = query.OrderByDescending(specification.OrderByDesc);
             }
+            if(specification.IsPaginated)
+            {
+                query = query.Skip(specification.Skip).Take(specification.Take);
+            }
             return query;
         }
     }
