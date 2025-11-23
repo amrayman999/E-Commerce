@@ -10,6 +10,10 @@ namespace E_Commerce.Persistence.Repositories
         private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
         public void Add(TEntity entity) => context.Set<TEntity>().Add(entity);
 
+        public async Task<int> CountAsync(ISpecification<TEntity> specification)
+            => await _dbSet.ApplySpecification(specification).CountAsync();
+
+
         public async Task<IEnumerable<TEntity>> GetAllAsync() => await context.Set<TEntity>().ToListAsync();
 
         public async Task<IEnumerable<TEntity>> GetAllAsync(ISpecification<TEntity> specification) => 
