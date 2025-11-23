@@ -17,9 +17,23 @@ namespace E_Commerce.Service.Specifications
         public Expression<Func<TEntity, bool>> Criteria {  get; private set; }
 
         public ICollection<Expression<Func<TEntity, object>>> Includes {  get; private set; } = new List<Expression<Func<TEntity, object>>>();
+
+        public Expression<Func<TEntity, object>> OrderBy {  get; private set; }
+
+        public Expression<Func<TEntity, object>> OrderByDesc {  get; private set; }
+
         protected void AddInclude(Expression<Func<TEntity, object>> includeExpression)
         {
             Includes.Add(includeExpression);
         }
+        protected void AddOrderBy(Expression<Func<TEntity, object>> expression)
+        {
+            OrderBy = expression;
+        }
+        protected void AddOrderByDesc(Expression<Func<TEntity, object>> expression)
+        {
+            OrderByDesc = expression;
+        }
+
     }
 }
