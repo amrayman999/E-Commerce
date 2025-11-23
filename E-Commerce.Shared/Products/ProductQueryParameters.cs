@@ -10,5 +10,6 @@ namespace E_Commerce.Shared.Products
     {
         public int? BrandId { get; set; }
         public int? TypeId { get; set; }
+        public string? Search { get; set; }
     }
 }
