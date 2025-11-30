@@ -1,4 +1,5 @@
-﻿using E_Commerce.Shared.ErrorModels;
+﻿using E_Commerce.Domain.Exceptions.NotFound;
+using E_Commerce.Shared.ErrorModels;
 
 namespace E_Commerce.Web.Middlewares
 {
@@ -19,7 +20,11 @@ namespace E_Commerce.Web.Middlewares
             }
             catch (Exception ex)
             {
-                context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+                context.Response.StatusCode = ex switch
+                {
+                    NotFoundException => StatusCodes.Status404NotFound,
+                    _ => StatusCodes.Status500InternalServerError
+                };
                 context.Response.ContentType = "application/json";
                 var response = new ErrorDetails()
                 {
