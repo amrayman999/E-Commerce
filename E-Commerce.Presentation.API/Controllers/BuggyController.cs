@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
-    internal class BuggyController
+    public class BuggyController 
     {
     }
 }

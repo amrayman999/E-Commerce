@@ -1,4 +1,5 @@
-﻿using E_Commerce.Service.Abstraction.Baskets;
+﻿using E_Commerce.Service.Abstraction;
+using E_Commerce.Service.Abstraction.Baskets;
 using E_Commerce.Shared.Dtos.Baskets;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -9,25 +10,25 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
-    public class BasketsController(IBasketService _basketService) : APIBaseController
+    public class BasketsController(IServiceManager _serviceManager) : APIBaseController
     {
         [HttpGet]
         public async Task<IActionResult> GetBasketById(string id)
         {
-            var result = await _basketService.GetBasketAsync(id);
+            var result = await _serviceManager.BasketService.GetBasketAsync(id);
             return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateOrUpdateBasket(BasketDto dto)
         {
-            var result = await _basketService.CreateBasketAsync(dto, TimeSpan.FromDays(1));
+            var result = await _serviceManager.BasketService.CreateBasketAsync(dto, TimeSpan.FromDays(1));
             return Ok(result);
         }
         [HttpDelete]
         public async Task<IActionResult> DeleteBasketById(string id)
         {
-            var result = await _basketService.DeleteBasketAsync(id);
+            var result = await _serviceManager.BasketService.DeleteBasketAsync(id);
             return NoContent();
         }
     }
