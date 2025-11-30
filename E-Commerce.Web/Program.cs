@@ -5,6 +5,7 @@ using E_Commerce.Persistence.Repositories;
 using E_Commerce.Service.Abstraction;
 using E_Commerce.Service.MappingProfile;
 using E_Commerce.Service.Services;
+using E_Commerce.Web.Middlewares;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Web
@@ -33,17 +34,20 @@ namespace E_Commerce.Web
 
             var app = builder.Build();
 
+            #region Initialize Db
             using var scope = app.Services.CreateScope();
             var initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
             await initializer.InitializeAsync();
+            #endregion
 
+            app.UseMiddleware<GlobalErrorHandlingMiddleware>();
+            app.UseStaticFiles();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseAuthorization();
             app.MapControllers();

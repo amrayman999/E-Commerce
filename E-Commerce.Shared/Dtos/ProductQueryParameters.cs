@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace E_Commerce.Shared.Products
+namespace E_Commerce.Shared.Dtos
 {
     public class ProductQueryParameters
     {
