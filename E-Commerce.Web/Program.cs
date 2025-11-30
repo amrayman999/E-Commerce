@@ -5,7 +5,9 @@ using E_Commerce.Persistence.Repositories;
 using E_Commerce.Service.Abstraction;
 using E_Commerce.Service.MappingProfile;
 using E_Commerce.Service.Services;
+using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Web
@@ -27,6 +29,24 @@ namespace E_Commerce.Web
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddAutoMapper(x => x.AddProfile(new ProductProfile(builder.Configuration)));
+
+            builder.Services.Configure<ApiBehaviorOptions>(config =>
+            {
+                config.InvalidModelStateResponseFactory = (actionContext) =>
+                {
+                    var errors = actionContext.ModelState.Where(M => M.Value.Errors.Any())
+                                                         .Select(M => new ValidationError()
+                                                         {
+                                                             Field = M.Key,
+                                                             Errors = M.Value.Errors.Select(E => E.ErrorMessage)
+                                                         }).ToList();
+                    var response = new ValidationErrorResponse()
+                    {
+                        Errors = errors
+                    };
+                    return new BadRequestObjectResult(response);
+                };
+            });
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
