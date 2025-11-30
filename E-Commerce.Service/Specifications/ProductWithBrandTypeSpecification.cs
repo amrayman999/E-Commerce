@@ -1,5 +1,5 @@
 ﻿using E_Commerce.Domain.Entities.Products;
-using E_Commerce.Shared.Dtos;
+using E_Commerce.Shared.Dtos.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;

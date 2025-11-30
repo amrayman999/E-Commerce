@@ -1,7 +1,7 @@
 ﻿using E_Commerce.Shared;
-using E_Commerce.Shared.Dtos;
+using E_Commerce.Shared.Dtos.Products;
 
-namespace E_Commerce.Service.Abstraction
+namespace E_Commerce.Service.Abstraction.Products
 {
     public interface IProductService
     {

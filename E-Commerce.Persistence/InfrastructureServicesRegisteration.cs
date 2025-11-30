@@ -20,6 +20,7 @@ namespace E_Commerce.Persistence
 
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddSingleton<IConnectionMultiplexer>((serviceProvider) =>
               ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection"))
             );

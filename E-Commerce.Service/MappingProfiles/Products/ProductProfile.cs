@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using E_Commerce.Domain.Entities.Products;
-using E_Commerce.Shared.Dtos;
+using E_Commerce.Shared.Dtos.Products;
 using Microsoft.Extensions.Configuration;
 
 
 
-namespace E_Commerce.Service.MappingProfile
+namespace E_Commerce.Service.MappingProfiles.Products
 {
     public class ProductProfile : Profile
     {

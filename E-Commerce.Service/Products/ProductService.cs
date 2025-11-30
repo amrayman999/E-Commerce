@@ -2,12 +2,12 @@
 using E_Commerce.Domain.Contracts;
 using E_Commerce.Domain.Entities.Products;
 using E_Commerce.Domain.Exceptions.NotFound;
-using E_Commerce.Service.Abstraction;
+using E_Commerce.Service.Abstraction.Products;
 using E_Commerce.Service.Specifications;
 using E_Commerce.Shared;
-using E_Commerce.Shared.Dtos;
+using E_Commerce.Shared.Dtos.Products;
 
-namespace E_Commerce.Service.Services
+namespace E_Commerce.Service.Products
 {
     public class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
