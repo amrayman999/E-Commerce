@@ -17,6 +17,16 @@ namespace E_Commerce.Web.Middlewares
             try
             {
                 await _next.Invoke(context);
+                if(context.Response.StatusCode == 404) // routing middleware
+                {
+                    context.Response.ContentType = "application/json";
+                    var response = new ErrorDetails()
+                    {
+                        StatusCode = context.Response.StatusCode,
+                        ErrorMessage = $"The endpoint {context.Request.Path} was not found."
+                    };
+                    await context.Response.WriteAsJsonAsync(response);
+                }
             }
             catch (Exception ex)
             {
