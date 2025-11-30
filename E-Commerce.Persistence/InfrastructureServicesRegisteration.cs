@@ -5,6 +5,7 @@ using E_Commerce.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 
 namespace E_Commerce.Persistence
 {
@@ -19,6 +20,9 @@ namespace E_Commerce.Persistence
 
             services.AddScoped<IDbInitializer, DbInitializer>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IConnectionMultiplexer>((serviceProvider) =>
+              ConnectionMultiplexer.Connect(configuration.GetConnectionString("RedisConnection"))
+            );
             return services;
         }
     }
