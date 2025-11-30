@@ -1,4 +1,5 @@
-﻿using E_Commerce.Service.Abstraction;
+﻿using E_Commerce.Presentation.API.Attributes;
+using E_Commerce.Service.Abstraction;
 using E_Commerce.Service.Abstraction.Products;
 using E_Commerce.Shared;
 using E_Commerce.Shared.Dtos.Products;
@@ -32,6 +33,7 @@ namespace E_Commerce.Presentation.API.Controllers
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<ProductDto>))]
+        [Cache(50)]
         public async Task<ActionResult<PaginatedResult<ProductDto>>> GetProductsAsync( [FromQuery] ProductQueryParameters parameters)
         {
             var products = await _serviceManager.ProductService.GetProductsAsync(parameters);
