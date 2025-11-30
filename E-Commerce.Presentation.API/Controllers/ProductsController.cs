@@ -31,8 +31,6 @@ namespace E_Commerce.Presentation.API.Controllers
         }
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<ProductDto>))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorDetails))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
         public async Task<ActionResult<PaginatedResult<ProductDto>>> GetProductsAsync( [FromQuery] ProductQueryParameters parameters)
         {
             var products = await productService.GetProductsAsync(parameters);
