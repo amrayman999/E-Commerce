@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
-    public class ProductController(IProductService productService) : APIBaseController
+    public class ProductsController(IProductService productService) : APIBaseController
     {
         [HttpGet("brands")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BrandDto>))]
@@ -29,7 +29,7 @@ namespace E_Commerce.Presentation.API.Controllers
             var product = await productService.GetByIdAsync(id);
             return Ok(product);
         }
-        [HttpGet("allproducts")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<ProductDto>))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorDetails))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
