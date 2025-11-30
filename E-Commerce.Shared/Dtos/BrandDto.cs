@@ -1,8 +1,8 @@
 ﻿
 
-namespace E_Commerce.Shared.Products
+namespace E_Commerce.Shared.Dtos
 {
-    public class TypeDto
+    public class BrandDto
     {
         public int Id { get; set; }
         public string Name { get; init; }

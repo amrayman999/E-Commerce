@@ -1,5 +1,5 @@
 ﻿using E_Commerce.Shared;
-using E_Commerce.Shared.Products;
+using E_Commerce.Shared.Dtos;
 
 namespace E_Commerce.Service.Abstraction
 {

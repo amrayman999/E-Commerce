@@ -1,5 +1,5 @@
 ﻿using E_Commerce.Domain.Entities.Products;
-using E_Commerce.Shared.Products;
+using E_Commerce.Shared.Dtos;
 using System.Linq.Expressions;
 
 namespace E_Commerce.Service.Specifications

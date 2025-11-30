@@ -1,5 +1,5 @@
 ﻿
-namespace E_Commerce.Shared.Products
+namespace E_Commerce.Shared.Dtos
 {
     public class ProductDto
     {
