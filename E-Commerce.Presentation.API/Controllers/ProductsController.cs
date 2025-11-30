@@ -1,6 +1,8 @@
-﻿using E_Commerce.Service.Abstraction;
+﻿using E_Commerce.Presentation.API.Attributes;
+using E_Commerce.Service.Abstraction;
+using E_Commerce.Service.Abstraction.Products;
 using E_Commerce.Shared;
-using E_Commerce.Shared.Dtos;
+using E_Commerce.Shared.Dtos.Products;
 using E_Commerce.Shared.ErrorModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_Commerce.Presentation.API.Controllers
 {
-    public class ProductController(IProductService productService) : APIBaseController
+    public class ProductsController(IServiceManager _serviceManager) : APIBaseController
     {
         [HttpGet("brands")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<BrandDto>))]
@@ -16,7 +18,7 @@ namespace E_Commerce.Presentation.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
         public async Task<ActionResult<IEnumerable<BrandDto>>> GetBrandsAsync()
         {
-            var brands = await productService.GetBrandsAsync();
+            var brands = await _serviceManager.ProductService.GetBrandsAsync();
             return Ok(brands);
         }
         [HttpGet("{id}")]
@@ -26,16 +28,15 @@ namespace E_Commerce.Presentation.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDetails))]
         public async Task<ActionResult<ProductDto>> GetByIdAsync(int id)
         {
-            var product = await productService.GetByIdAsync(id);
+            var product = await _serviceManager.ProductService.GetByIdAsync(id);
             return Ok(product);
         }
-        [HttpGet("allproducts")]
+        [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(PaginatedResult<ProductDto>))]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(ErrorDetails))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
+        [Cache(50)]
         public async Task<ActionResult<PaginatedResult<ProductDto>>> GetProductsAsync( [FromQuery] ProductQueryParameters parameters)
         {
-            var products = await productService.GetProductsAsync(parameters);
+            var products = await _serviceManager.ProductService.GetProductsAsync(parameters);
             return Ok(products);
         }
         [HttpGet("types")]
@@ -44,7 +45,7 @@ namespace E_Commerce.Presentation.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorDetails))]
         public async Task<ActionResult<IEnumerable<TypeDto>>> GetTypesAsync()
         {
-            var types = await productService.GetTypesAsync();
+            var types = await _serviceManager.ProductService.GetTypesAsync();
             return Ok(types);
         }
     }

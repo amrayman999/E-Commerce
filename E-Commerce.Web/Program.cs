@@ -4,8 +4,6 @@ using E_Commerce.Persistence.Context;
 using E_Commerce.Persistence.DbInitializers;
 using E_Commerce.Persistence.Repositories;
 using E_Commerce.Service.Abstraction;
-using E_Commerce.Service.MappingProfile;
-using E_Commerce.Service.Services;
 using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Extensions;
 using E_Commerce.Web.Middlewares;
