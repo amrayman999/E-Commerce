@@ -10,8 +10,9 @@ using E_Commerce.Service.Auth;
 using E_Commerce.Service.Baskets;
 using E_Commerce.Service.Cache;
 using E_Commerce.Service.Products;
+using E_Commerce.Shared;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 
 namespace E_Commerce.Service
@@ -22,12 +23,12 @@ namespace E_Commerce.Service
         IBasketRepository _basketRepository,
         ICacheRepository _cacheRepository,
         UserManager<AppUser> _userManager, 
-        IConfiguration _configuration ) : IServiceManager
+        IOptions<JwtOptions> options ) : IServiceManager
     {
         public IProductService ProductService { get; } = new ProductService(_unitOfWork, _mapper);
         public IBasketService BasketService { get; } = new BasketService(_basketRepository, _mapper);
         public ICacheService CacheService { get; } = new CacheService(_cacheRepository);
-        public IAuthService AuthService { get; } = new AuthService(_userManager, _configuration);
+        public IAuthService AuthService { get; } = new AuthService(_userManager, options);
 
     }
 }

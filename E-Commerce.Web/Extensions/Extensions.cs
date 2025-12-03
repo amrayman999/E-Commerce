@@ -3,6 +3,7 @@ using E_Commerce.Domain.Entities.Identity;
 using E_Commerce.Persistence;
 using E_Commerce.Persistence.Identity.Contexts;
 using E_Commerce.Service;
+using E_Commerce.Shared;
 using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Middlewares;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ namespace E_Commerce.Web.Extensions
             services.AddApplicationServices(configuration);
             services.ConfigureApiBehaviorOptions();
             services.AddIdentityServices();
+            services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
             return services;
         }
         private static IServiceCollection AddWebServices(this IServiceCollection services)
