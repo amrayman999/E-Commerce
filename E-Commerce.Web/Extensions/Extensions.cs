@@ -8,6 +8,9 @@ using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Middlewares;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 namespace E_Commerce.Web.Extensions
 {
     public static class Extensions
@@ -20,6 +23,29 @@ namespace E_Commerce.Web.Extensions
             services.ConfigureApiBehaviorOptions();
             services.AddIdentityServices();
             services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
+            services.AddAuthenticationService(configuration);
+
+            return services;
+        }
+        private static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtOptions.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey))
+                };
+            });
             return services;
         }
         private static IServiceCollection AddWebServices(this IServiceCollection services)
@@ -76,6 +102,7 @@ namespace E_Commerce.Web.Extensions
                 app.UseSwaggerUI();
             }
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             return app;
