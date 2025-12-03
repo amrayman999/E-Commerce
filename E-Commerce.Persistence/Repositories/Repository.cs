@@ -1,6 +1,6 @@
 ﻿using E_Commerce.Domain.Contracts;
 using E_Commerce.Domain.Entities;
-using E_Commerce.Persistence.Context;
+using E_Commerce.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace E_Commerce.Persistence.Repositories

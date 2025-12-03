@@ -1,8 +1,9 @@
 ﻿using E_Commerce.Domain.Contracts;
 using E_Commerce.Domain.Entities;
-using E_Commerce.Persistence.Context;
+using E_Commerce.Persistence.Data;
+using E_Commerce.Persistence.Repositories;
 
-namespace E_Commerce.Persistence.Repositories
+namespace E_Commerce.Persistence
 {
     public class UnitOfWork(StoreDbContext context) : IUnitOfWork
     {

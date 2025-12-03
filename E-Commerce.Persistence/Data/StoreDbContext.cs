@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 
-namespace E_Commerce.Persistence.Context
+namespace E_Commerce.Persistence.Data
 {
     public class StoreDbContext : DbContext
     {

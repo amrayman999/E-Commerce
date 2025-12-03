@@ -1,7 +1,7 @@
 ﻿using E_Commerce.Domain.Entities.Products;
 using Microsoft.EntityFrameworkCore;
 
-namespace E_Commerce.Persistence.Context.Configurations
+namespace E_Commerce.Persistence.Data.Configurations
 {
     public class ProductConfiguration : IEntityTypeConfiguration<Product>
     {

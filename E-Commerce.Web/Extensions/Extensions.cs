@@ -1,8 +1,11 @@
 ﻿using E_Commerce.Domain.Contracts;
+using E_Commerce.Domain.Entities.Identity;
 using E_Commerce.Persistence;
+using E_Commerce.Persistence.Identity.Contexts;
 using E_Commerce.Service;
 using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Middlewares;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 namespace E_Commerce.Web.Extensions
 {
@@ -14,6 +17,7 @@ namespace E_Commerce.Web.Extensions
             services.AddInfrastructureServices(configuration);
             services.AddApplicationServices(configuration);
             services.ConfigureApiBehaviorOptions();
+            services.AddIdentityServices();
             return services;
         }
         private static IServiceCollection AddWebServices(this IServiceCollection services)
@@ -22,6 +26,15 @@ namespace E_Commerce.Web.Extensions
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            return services;
+        }
+        private static IServiceCollection AddIdentityServices(this IServiceCollection services)
+        {
+            services.AddIdentityCore<AppUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<IdentityStoreDbContext>();
             return services;
         }
         private static IServiceCollection ConfigureApiBehaviorOptions(this IServiceCollection services)
@@ -45,7 +58,6 @@ namespace E_Commerce.Web.Extensions
             });
             return services;
         }
-
 
         public static async Task<WebApplication> ConfigureMiddlewares(this WebApplication app)
         {
@@ -71,6 +83,7 @@ namespace E_Commerce.Web.Extensions
             using var scope = app.Services.CreateScope();
             var initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
             await initializer.InitializeAsync();
+            await initializer.InitializeIdentityAsync();
             return app;
         }
         private static WebApplication UseGlobalErrorHandling(this WebApplication app)
