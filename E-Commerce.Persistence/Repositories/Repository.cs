@@ -8,7 +8,7 @@ namespace E_Commerce.Persistence.Repositories
     public class Repository<TEntity, TKey>(StoreDbContext context) : IRepository<TEntity, TKey> where TEntity : Entity<TKey>
     {
         private readonly DbSet<TEntity> _dbSet = context.Set<TEntity>();
-        public void Add(TEntity entity) => context.Set<TEntity>().Add(entity);
+        public async Task AddAsync(TEntity entity) => await context.Set<TEntity>().AddAsync(entity);
 
         public async Task<int> CountAsync(ISpecification<TEntity> specification)
             => await _dbSet.ApplySpecification(specification).CountAsync();
