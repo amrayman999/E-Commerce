@@ -11,6 +11,7 @@ using E_Commerce.Service.Baskets;
 using E_Commerce.Service.Cache;
 using E_Commerce.Service.Products;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 
 namespace E_Commerce.Service
@@ -20,12 +21,13 @@ namespace E_Commerce.Service
         IMapper _mapper ,
         IBasketRepository _basketRepository,
         ICacheRepository _cacheRepository,
-        UserManager<AppUser> _userManager) : IServiceManager
+        UserManager<AppUser> _userManager, 
+        IConfiguration _configuration ) : IServiceManager
     {
         public IProductService ProductService { get; } = new ProductService(_unitOfWork, _mapper);
         public IBasketService BasketService { get; } = new BasketService(_basketRepository, _mapper);
         public ICacheService CacheService { get; } = new CacheService(_cacheRepository);
-        public IAuthService AuthService { get; } = new AuthService(_userManager);
+        public IAuthService AuthService { get; } = new AuthService(_userManager, _configuration);
 
     }
 }

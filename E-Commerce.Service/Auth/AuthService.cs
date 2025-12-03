@@ -5,6 +5,7 @@ using E_Commerce.Domain.Exceptions.UnAuthorized;
 using E_Commerce.Service.Abstraction.Auth;
 using E_Commerce.Shared.Dtos.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace E_Commerce.Service.Auth
 {
-    public class AuthService(UserManager<AppUser> _userManager) : IAuthService
+    public class AuthService(UserManager<AppUser> _userManager, IConfiguration _configuration) : IAuthService
     {
         public async Task<UserResponse?> LoginAsync(LoginRequest request)
         {
@@ -65,12 +66,12 @@ namespace E_Commerce.Service.Auth
                 authClaims.Add(new Claim(ClaimTypes.Role, role));
             }
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("STRONGSecurityKEYFORAUTHenticationSTRONGSecurityKEYFORAUTHenticationSTRONGSecurityKEYFORAUTHenticationSTRONGSecurityKEYFORAUTHentication"));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtOptions:SecurityKey"]));
             var token = new JwtSecurityToken(
-                issuer: "yourdomain.com",
-                audience: "MyStore",
+                issuer: _configuration["JwtOptions:Issuer"],
+                audience: _configuration["JwtOptions:Audience"],
                 claims: authClaims,
-                expires: DateTime.Now.AddDays(2),
+                expires: DateTime.Now.AddDays(Convert.ToDouble(_configuration["JwtOptions:DurationInDays"])),
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
                 );
             return new JwtSecurityTokenHandler().WriteToken(token);
