@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Domain.Exceptions.BadRequest;
 using E_Commerce.Domain.Exceptions.NotFound;
+using E_Commerce.Domain.Exceptions.UnAuthorized;
 using E_Commerce.Shared.ErrorModels;
 
 namespace E_Commerce.Web.Middlewares
@@ -35,6 +36,7 @@ namespace E_Commerce.Web.Middlewares
                 {
                     NotFoundException => StatusCodes.Status404NotFound,
                     BadRequestException => StatusCodes.Status400BadRequest,
+                    UnAuthorizedException => StatusCodes.Status401Unauthorized,
                     _ => StatusCodes.Status500InternalServerError
                 };
                 context.Response.ContentType = "application/json";

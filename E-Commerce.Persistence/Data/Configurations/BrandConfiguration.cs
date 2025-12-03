@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 
-namespace E_Commerce.Persistence.Context.Configurations
+namespace E_Commerce.Persistence.Data.Configurations
 {
-    public class TypeConfiguration : IEntityTypeConfiguration<ProductType>
+    public class BrandConfiguration : IEntityTypeConfiguration<ProductBrand>
     {
-        public void Configure(EntityTypeBuilder<ProductType> builder)
+        public void Configure(EntityTypeBuilder<ProductBrand> builder)
         {
             builder.Property(p => p.Name)
                 .HasColumnType("VarChar")

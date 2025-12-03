@@ -1,9 +1,16 @@
 ﻿using E_Commerce.Domain.Contracts;
+using E_Commerce.Domain.Entities.Identity;
 using E_Commerce.Persistence;
+using E_Commerce.Persistence.Identity.Contexts;
 using E_Commerce.Service;
+using E_Commerce.Shared;
 using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Middlewares;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 namespace E_Commerce.Web.Extensions
 {
     public static class Extensions
@@ -14,6 +21,31 @@ namespace E_Commerce.Web.Extensions
             services.AddInfrastructureServices(configuration);
             services.AddApplicationServices(configuration);
             services.ConfigureApiBehaviorOptions();
+            services.AddIdentityServices();
+            services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
+            services.AddAuthenticationService(configuration);
+
+            return services;
+        }
+        private static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
+        {
+            var jwtOptions = configuration.GetSection("JwtOptions").Get<JwtOptions>();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = "Bearer";
+                options.DefaultChallengeScheme = "Bearer";
+            }).AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtOptions.Issuer,
+                    ValidateAudience = true,
+                    ValidAudience = jwtOptions.Audience,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecurityKey))
+                };
+            });
             return services;
         }
         private static IServiceCollection AddWebServices(this IServiceCollection services)
@@ -22,6 +54,15 @@ namespace E_Commerce.Web.Extensions
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+            return services;
+        }
+        private static IServiceCollection AddIdentityServices(this IServiceCollection services)
+        {
+            services.AddIdentityCore<AppUser>(options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }).AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<IdentityStoreDbContext>();
             return services;
         }
         private static IServiceCollection ConfigureApiBehaviorOptions(this IServiceCollection services)
@@ -46,7 +87,6 @@ namespace E_Commerce.Web.Extensions
             return services;
         }
 
-
         public static async Task<WebApplication> ConfigureMiddlewares(this WebApplication app)
         {
             #region Initialize Db
@@ -62,6 +102,7 @@ namespace E_Commerce.Web.Extensions
                 app.UseSwaggerUI();
             }
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
             return app;
@@ -71,6 +112,7 @@ namespace E_Commerce.Web.Extensions
             using var scope = app.Services.CreateScope();
             var initializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
             await initializer.InitializeAsync();
+            await initializer.InitializeIdentityAsync();
             return app;
         }
         private static WebApplication UseGlobalErrorHandling(this WebApplication app)
