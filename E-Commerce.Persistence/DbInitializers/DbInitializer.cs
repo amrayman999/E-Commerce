@@ -18,7 +18,7 @@ namespace E_Commerce.Persistence.DbInitializers
         public async Task InitializeAsync()
         {
             await context.Database.MigrateAsync();
-            if(!context.ProductBrands.Any())
+            if(!context.ProductBrands.Any()) 
             {
                 var brandsData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Data\DataSeed\brands.json");
                 var options = new JsonSerializerOptions
