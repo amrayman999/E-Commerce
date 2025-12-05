@@ -53,6 +53,7 @@ namespace E_Commerce.Service.Orders
         {
             var specs = new OrderSpecification(id, userEmail);
             var order = await _unitOfWork.GetRepository<Order, Guid>().GetAsync(specs);
+            if (order == null) throw new OrderNotFoundException(id);
             return _mapper.Map<OrderResponse>(order);
         }
 
