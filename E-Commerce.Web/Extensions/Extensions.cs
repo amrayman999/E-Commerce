@@ -8,7 +8,6 @@ using E_Commerce.Shared.ErrorModels;
 using E_Commerce.Web.Middlewares;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 namespace E_Commerce.Web.Extensions

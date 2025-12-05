@@ -1,5 +1,6 @@
 ﻿using E_Commerce.Domain.Contracts;
 using E_Commerce.Domain.Entities.Identity;
+using E_Commerce.Domain.Entities.Orders;
 using E_Commerce.Domain.Entities.Products;
 using E_Commerce.Persistence.Data;
 using E_Commerce.Persistence.Identity.Contexts;
@@ -17,9 +18,9 @@ namespace E_Commerce.Persistence.DbInitializers
         public async Task InitializeAsync()
         {
             await context.Database.MigrateAsync();
-            if(!context.ProductBrands.Any())
+            if(!context.ProductBrands.Any()) 
             {
-                var brandsData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Context\DataSeed/brands.json");
+                var brandsData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Data\DataSeed\brands.json");
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -29,12 +30,11 @@ namespace E_Commerce.Persistence.DbInitializers
                 {
                     context.ProductBrands.AddRange(brands);
                 }
-                await context.SaveChangesAsync();
             }
 
             if (!context.ProductTypes.Any())
             {
-                var typesData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Context\DataSeed/types.json");
+                var typesData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Data\DataSeed\types.json");
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -44,11 +44,10 @@ namespace E_Commerce.Persistence.DbInitializers
                 {
                     context.ProductTypes.AddRange(types);
                 }
-                await context.SaveChangesAsync();
             }
             if (!context.Products.Any())
             {
-                var productsData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Context\DataSeed/products.json");
+                var productsData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Data\DataSeed\products.json");
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
@@ -58,8 +57,22 @@ namespace E_Commerce.Persistence.DbInitializers
                 {
                     context.Products.AddRange(products);
                 }
-                await context.SaveChangesAsync();
             }
+            if (!context.DeliveryMethods.Any())
+            {
+                var deliveryData = await File.ReadAllTextAsync(@"..\E-Commerce.Persistence\Data\DataSeed\delivery.json");
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryData, options);
+                if (deliveryMethods != null && deliveryMethods.Any())
+                {
+                    context.DeliveryMethods.AddRange(deliveryMethods);
+                }
+            }
+            await context.SaveChangesAsync();
+
         }
         public async Task InitializeIdentityAsync()
         {
