@@ -23,7 +23,14 @@ namespace E_Commerce.Web.Extensions
             services.AddIdentityServices();
             services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
             services.AddAuthenticationService(configuration);
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyHeader()
+                           .AllowAnyMethod();
+                });
+            });
             return services;
         }
         private static IServiceCollection AddAuthenticationService(this IServiceCollection services, IConfiguration configuration)
@@ -101,6 +108,7 @@ namespace E_Commerce.Web.Extensions
                 app.UseSwaggerUI();
             }
             app.UseHttpsRedirection();
+            app.UseCors("AllowAll");
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
