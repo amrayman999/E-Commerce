@@ -2,6 +2,7 @@
 using E_Commerce.Service.Abstraction.Baskets;
 using E_Commerce.Service.Abstraction.Products;
 using E_Commerce.Service.Baskets;
+using E_Commerce.Service.MappingProfiles.Auth;
 using E_Commerce.Service.MappingProfiles.Baskets;
 using E_Commerce.Service.MappingProfiles.Orders;
 using E_Commerce.Service.MappingProfiles.Products;
@@ -18,6 +19,7 @@ namespace E_Commerce.Service
             services.AddAutoMapper(x => x.AddProfile(new ProductProfile(configuration)));
             services.AddAutoMapper(x => x.AddProfile(new BasketProfile()));
             services.AddAutoMapper(x => x.AddProfile(new OrderProfile()));
+            services.AddAutoMapper(x => x.AddProfile(new AuthProfile()));
             services.AddScoped<IServiceManager, ServiceManager>();
             return services;
         }

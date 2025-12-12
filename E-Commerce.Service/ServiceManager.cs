@@ -30,7 +30,7 @@ namespace E_Commerce.Service
         public IProductService ProductService { get; } = new ProductService(_unitOfWork, _mapper);
         public IBasketService BasketService { get; } = new BasketService(_basketRepository, _mapper);
         public ICacheService CacheService { get; } = new CacheService(_cacheRepository);
-        public IAuthService AuthService { get; } = new AuthService(_userManager, options);
+        public IAuthService AuthService { get; } = new AuthService(_userManager, options, _mapper);
         public IOrderService OrderService { get; } = new OrderService(_unitOfWork, _mapper, _basketRepository);
     }
 }
