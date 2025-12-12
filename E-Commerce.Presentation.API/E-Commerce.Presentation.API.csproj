@@ -17,6 +17,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\E-Commerce.Service.Abstraction\E-Commerce.Service.Abstraction.csproj" />
+	  <ProjectReference Include="..\E-Commerce.Shared\E-Commerce.Shared.csproj" />
 	</ItemGroup>
 
 </Project>
