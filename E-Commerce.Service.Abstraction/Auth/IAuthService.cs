@@ -11,6 +11,11 @@ namespace E_Commerce.Service.Abstraction.Auth
     {
         Task<UserResponse?> LoginAsync(LoginRequest request);
         Task<UserResponse?> RegisterAsync(RegisterRequest request);
+        Task<bool> CheckEmailExistAsync(string email);
+        Task<UserResponse?> GetCurrentUserAsync(string email);
+        Task<AddressDto?> GetCurrentUserAddressAsync(string email);
+        Task<AddressDto?> UpdateCurrentUserAddressAsync(AddressDto request, string email);
+
 
     }
 }
