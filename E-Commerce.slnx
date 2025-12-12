@@ -8,6 +8,7 @@
     <Project Path="E-Commerce.Persistence/E-Commerce.Persistence.csproj" />
     <Project Path="E-Commerce.Presentation.API/E-Commerce.Presentation.API.csproj" Id="e51c9ca3-19ac-4df0-ad31-0c2994dfe32b" />
   </Folder>
+  <Project Path="AdminDashboardMVC/AdminDashboardMVC.csproj" Id="2d9bd2c5-5b65-4603-848e-233fd009ec42" />
   <Project Path="E-Commerce.Shared/E-Commerce.Shared.csproj" Id="2afb31f2-d258-46d9-ba73-9899fd37b6a9" />
   <Project Path="E-Commerce.Web/E-Commerce.Web.csproj" />
 </Solution>
