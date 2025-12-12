@@ -35,7 +35,7 @@ namespace E_Commerce.Service.Orders
             var subTotal = orderItems.Sum(OI => OI.Price * OI.Quantity);
 
 
-            var order = new Order(userEmail, orderAddress, deliveryMethod, orderItems, subTotal);
+            var order = new Order(userEmail, orderAddress, deliveryMethod, orderItems, subTotal, basket.PaymentInentId);
 
             await _unitOfWork.GetRepository<Order, Guid>().AddAsync(order);
             var count = await _unitOfWork.SaveChangesAsync();

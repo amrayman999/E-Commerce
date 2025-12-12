@@ -10,13 +10,14 @@ namespace E_Commerce.Domain.Entities.Orders
 {
     public class Order : Entity<Guid>
     {
-        public Order(string userEmail, OrderAddress shippingAddress, DeliveryMethod deliveryMethod,  ICollection<OrderItem> items, decimal subTotal)
+        public Order(string userEmail, OrderAddress shippingAddress, DeliveryMethod deliveryMethod,  ICollection<OrderItem> items, decimal subTotal, string? paymentIntentId)
         {
             UserEmail = userEmail;
             ShippingAddress = shippingAddress;
             DeliveryMethod = deliveryMethod;
             Items = items;
             SubTotal = subTotal;
+            PaymentIntentId = paymentIntentId;
         }
         public Order()
         {
@@ -32,6 +33,7 @@ namespace E_Commerce.Domain.Entities.Orders
         public ICollection<OrderItem> Items { get; set; }
         public decimal SubTotal { get; set; }
         public decimal GetTotal() => SubTotal + DeliveryMethod.Price;
+        public string? PaymentIntentId { get; set; }
 
-    }
+        }
 }
