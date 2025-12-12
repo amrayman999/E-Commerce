@@ -2,6 +2,7 @@
 using E_Commerce.Service.Abstraction.Baskets;
 using E_Commerce.Service.Abstraction.Cache;
 using E_Commerce.Service.Abstraction.Orders;
+using E_Commerce.Service.Abstraction.Payments;
 using E_Commerce.Service.Abstraction.Products;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,7 @@ namespace E_Commerce.Service.Abstraction
         ICacheService CacheService { get; }
         IAuthService AuthService { get; }
         IOrderService OrderService { get; }
+        IPaymentService PaymentService { get; }
+
     }
 }

@@ -16,13 +16,17 @@ namespace E_Commerce.Service.Orders
         public async Task<OrderResponse?> CreateOrderAsync(OrderRequest request, string userEmail)
         {
             var orderAddress = _mapper.Map<OrderAddress>(request.ShipToAddress);
+
             var deliveryMethod = await _unitOfWork.GetRepository<DeliveryMethod, int>().GetByIdAsync(request.DeliveryMethodId);
             if (deliveryMethod is null) throw new DeliveryMethodNotFoundException(request.DeliveryMethodId);
+
+
+            var orderItems = new List<OrderItem>();
 
             var basket = await _basketRepository.GetBasketAsync(request.BasketId);
             if(basket is null) throw new BasketNotFoundException(request.BasketId);
 
-            var orderItems = new List<OrderItem>();
+           
             foreach(var item in basket.Items)
             {
                 var product = await _unitOfWork.GetRepository<Product,int>().GetByIdAsync(item.Id);
@@ -34,6 +38,10 @@ namespace E_Commerce.Service.Orders
             }
             var subTotal = orderItems.Sum(OI => OI.Price * OI.Quantity);
 
+            var specs = new OrderWithPaymentIntentSpecification(basket.PaymentInentId);
+            var existsOrder = await _unitOfWork.GetRepository<Order, Guid>().GetAsync(specs);
+            if(existsOrder is not null)
+                _unitOfWork.GetRepository<Order, Guid>().Remove(existsOrder);
 
             var order = new Order(userEmail, orderAddress, deliveryMethod, orderItems, subTotal, basket.PaymentInentId);
 
